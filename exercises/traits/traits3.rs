@@ -11,7 +11,8 @@
 // I AM NOT DONE
 
 pub trait Licensed {
-    fn licensing_info(&self) -> String;
+  type Version_type;
+    fn licensing_info(&self) -> Self::Version_type;
 }
 
 struct SomeSoftware {
@@ -22,8 +23,19 @@ struct OtherSoftware {
     version_number: String,
 }
 
-impl Licensed for SomeSoftware {} // Don't edit this line
-impl Licensed for OtherSoftware {} // Don't edit this line
+impl Licensed for SomeSoftware {
+  type Version_type = i32;
+  fn licensing_info(&self) -> Self::Version_type{
+    self.version_number
+  }
+
+} // Don't edit this line
+impl Licensed for OtherSoftware {
+  type Version_type = String;
+  fn licensing_info(&self) -> Self::Version_type{
+    self.version_number.clone()
+  }
+} // Don't edit this line
 
 #[cfg(test)]
 mod tests {
@@ -36,7 +48,7 @@ mod tests {
         let other_software = OtherSoftware {
             version_number: "v2.0.0".to_string(),
         };
-        assert_eq!(some_software.licensing_info(), licensing_info);
-        assert_eq!(other_software.licensing_info(), licensing_info);
+        assert_eq!(some_software.licensing_info(), some_software.version_number);
+        assert_eq!(other_software.licensing_info(), other_software.version_number);
     }
 }

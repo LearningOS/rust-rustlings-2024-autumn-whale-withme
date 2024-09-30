@@ -6,7 +6,7 @@
 // Execute `rustlings hint generics2` or use the `hint` watch subcommand for a
 // hint.
 
-// I AM NOT DONE
+/* 结构体和方法上都需要声明的时候加上类型<T> */
 
 struct Wrapper<T> {
     value: T,
