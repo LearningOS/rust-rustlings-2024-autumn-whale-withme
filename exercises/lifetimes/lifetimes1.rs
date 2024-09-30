@@ -8,9 +8,14 @@
 // Execute `rustlings hint lifetimes1` or use the `hint` watch subcommand for a
 // hint.
 
-// I AM NOT DONE
+/**
+ * 在通过函数签名指定生命周期参数时，我们并没有改变传入引用或者返回引用的真实生命周期，
+ * 而是告诉编译器当不满足此约束条件时，就拒绝编译通过。
+ * 显式的使用生命周期，可以让编译器正确的认识到多个引用之间的关系，最终帮我们提前规避可能存在的代码风险。
+ * 生命周期取重叠的部分对齐，保证一致
+*/
 
-fn longest(x: &str, y: &str) -> &str {
+fn longest<'a> (x: &'a str, y: &'a str) -> &'a str {
     if x.len() > y.len() {
         x
     } else {
