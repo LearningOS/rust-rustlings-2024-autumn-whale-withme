@@ -7,11 +7,20 @@
 // Execute `rustlings hint errors3` or use the `hint` watch subcommand for a
 // hint.
 
-// I AM NOT DONE
+/**
+ * 关于error handling的demo
+ * let mut f = match f {
+    // 打开文件成功，将file句柄赋值给f
+    Ok(file) => file,
+    // 打开文件失败，将错误返回(向上传播)
+    Err(e) => return Err(e),
+};
+ 
+ */
 
 use std::num::ParseIntError;
 
-fn main() {
+fn main() -> Result<(), Box<dyn std::error::Error>>{
     let mut tokens = 100;
     let pretend_user_input = "8";
 
@@ -23,6 +32,7 @@ fn main() {
         tokens -= cost;
         println!("You now have {} tokens.", tokens);
     }
+    Ok(())
 }
 
 pub fn total_cost(item_quantity: &str) -> Result<i32, ParseIntError> {
