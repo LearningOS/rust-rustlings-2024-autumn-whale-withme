@@ -7,7 +7,6 @@
 // Execute `rustlings hint tests6` or use the `hint` watch subcommand for a
 // hint.
 
-// I AM NOT DONE
 
 struct Foo {
     a: u128,

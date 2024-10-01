@@ -1,3 +1,24 @@
+## String and &str  
+  
+### push
+  在字符串后追加的只能是**字符串切片或字符字面量**，使用对应的push_str, push两种方法。
+  String类型追加字符串切片之后返回的还是String类型。
+  ```rust
+  pub fn capitalize_words_vector(words: &[&str]) -> Vec<String> {
+  let mut ret:Vec<String> = Vec::new();
+    for word in words{
+      let capacity_word = capitalize_first(word);
+      ret.push(capacity_word);
+    }
+  ret
+}
+  ```
+
+### String and iterator  
+  
+  string.chars()可以转换字符串到迭代器，配合as_str可以收集剩余的字符，
+  应该是.chars()实现了IntoIterstor特征
+
 ## unsafe关键字  
   
   在方法、特征前声明`unsafe`,表示这个函数包含不安全的代码。调用这个函数的代码必须在unsafe上下文中进行，
@@ -45,4 +66,45 @@
         assert!(ret.b == Some("hello".to_owned()));
   }
   ```
+## 迭代器iterator  
+    
+  **迭代器之所以成为迭代器，就是因为实现了 Iterator 特征，要实现该特征，最主要的就是实现其中的 next 方法**
+  `into_iter`拿走所有权，`iter_mut`可变借用，其余都是不可变借用  
+  - .iter() 方法实现的迭代器，调用 next 方法返回的类型是 Some(&T)
+  - .iter_mut() 方法实现的迭代器，调用 next 方法返回的类型是 Some(&mut T)
+
+  ```rust
+  pub trait Iterator {
+    type Item;
+
+    fn next(&mut self) -> Option<Self::Item>;
+
+    // ...
+  }
+  ```
+
+  注意区分两个特征Iterator 和 IntoIterator：
+  1. Iterator 就是迭代器特征，只有实现了它才能称为迭代器，才能调用 next
+  2.  IntoIterator 强调的是某一个类型如果实现了该特征，它可以通过 into_iter，iter 等方法变成一个迭代器  
+   
+### collect  
   
+  collect可以把迭代器转换为一个集合类型，如 Vec、HashMap 等。collect() 的返回类型取决于它被用于收集成什么类型，
+  通常可以通过上下文来推断
+  ```rust
+  // Complete the function and return a value of the correct type so the test
+  // passes.
+  // Desired output: Ok([1, 11, 1426, 3])
+  fn result_with_list() -> Result<Vec<i32>, DivisionError> {
+      let numbers = vec![27, 297, 38502, 81];
+      numbers.into_iter().map(|n| divide(n, 27)).collect()
+  }
+
+  // Complete the function and return a value of the correct type so the test
+  // passes.
+  // Desired output: [Ok(1), Ok(11), Ok(1426), Ok(3)]
+  fn list_of_results() -> Vec<Result<i32, DivisionError>> {
+      let numbers = vec![27, 297, 38502, 81];
+      numbers.into_iter().map(|n| divide(n, 27)).collect()
+  }
+  ```
