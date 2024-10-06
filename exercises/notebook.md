@@ -120,3 +120,43 @@
   
 ## 宏编程macro  
   
+## 多线程  
+  
+  使用 thread::spawn 可以创建线程：
+```rust
+use std::thread;
+use std::time::Duration;
+
+fn main() {
+    thread::spawn(|| {
+        for i in 1..10 {
+            println!("hi number {} from the spawned thread!", i);
+            thread::sleep(Duration::from_millis(1));
+        }
+    });
+
+    for i in 1..5 {
+        println!("hi number {} from the main thread!", i);
+        thread::sleep(Duration::from_millis(1));
+    }
+}
+```
+  
+  对共享变量进行修改，需要引用arc是一种线程安全的引用计数智能指针，允许多个线程同时拥有对同一数据的所有权，需要配合锁进行修改
+```rust
+let status = Arc::new(Mutex::new(JobStatus { jobs_completed: 0 }));   
+    let mut handles = vec![];
+    for _ in 0..10 {
+        let status_shared = Arc::clone(&status);
+        let handle = thread::spawn(move || {
+            thread::sleep(Duration::from_millis(250));
+            // TODO: You must take an action before you update a shared value
+            let mut status_thread = status_shared.lock().unwrap();
+            status_thread.jobs_completed += 1;
+        });
+        handles.push(handle);
+    }
+```
+  
+  
+  
