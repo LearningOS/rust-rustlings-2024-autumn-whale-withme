@@ -86,6 +86,13 @@
   注意区分两个特征Iterator 和 IntoIterator：
   1. Iterator 就是迭代器特征，只有实现了它才能称为迭代器，才能调用 next
   2.  IntoIterator 强调的是某一个类型如果实现了该特征，它可以通过 into_iter，iter 等方法变成一个迭代器  
+    
+  使用filter和counter的例子  
+  ```rust
+  fn count_iterator(map: &HashMap<String, Progress>, value: Progress) -> usize{
+    map.values().filter(|&val| val==value).count()    /* filter 过滤的是map的值 */
+  }
+  ```
    
 ### collect  
   
@@ -112,5 +119,4 @@
 ## 闭包Closure  
   
 ## 宏编程macro  
-  
   

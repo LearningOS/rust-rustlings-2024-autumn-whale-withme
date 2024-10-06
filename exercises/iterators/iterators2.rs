@@ -7,7 +7,6 @@
 // hint.
 
 
-
 // Step 1.
 // Complete the `capitalize_first` function.
 // "hello" -> "Hello"
