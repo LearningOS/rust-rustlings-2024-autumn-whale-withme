@@ -118,7 +118,26 @@
 
 ## 闭包Closure  
   
-## 宏编程macro  
+## 宏编程macro 
+
+## 智能指针  
+  
+### Box  
+  
+  Box简单的封装，数据存储在堆上，使用场景  
+
+  1. 特意的将数据分配在堆上
+```rust
+fn main() {
+    let a = Box::new(3);
+    println!("a = {}", a); // a = 3
+
+    // 下面一行代码将报错
+    // let b = a + 1; // cannot add `{integer}` to `Box<{integer}>`
+}
+```
+  
+  2. 
   
 ## 多线程  
   

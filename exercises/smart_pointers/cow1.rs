@@ -12,16 +12,17 @@
 //
 // Execute `rustlings hint cow1` or use the `hint` watch subcommand for a hint.
 
-// I AM NOT DONE
 
+/* Cow 类型的克隆操作是惰性的，只有在修改数据时才会进行克隆操作。 */
 use std::borrow::Cow;
 
 fn abs_all<'a, 'b>(input: &'a mut Cow<'b, [i32]>) -> &'a mut Cow<'b, [i32]> {
     for i in 0..input.len() {
         let v = input[i];
         if v < 0 {
-            // Clones into a vector if not already owned.
-            input.to_mut()[i] = -v;
+            // Clones into a vector if not already owned
+            let input_mut = input.to_mut();     /* 返回的是自身可变引用 */
+            input_mut[i] = -v;
         }
     }
     input
@@ -32,47 +33,34 @@ mod tests {
     use super::*;
 
     #[test]
-    fn reference_mutation() -> Result<(), &'static str> {
-        // Clone occurs because `input` needs to be mutated.
-        let slice = [-1, 0, 1];
-        let mut input = Cow::from(&slice[..]);
-        match abs_all(&mut input) {
-            Cow::Owned(_) => Ok(()),
-            _ => Err("Expected owned value"),
-        }
+    fn reference_mutation() {
+        let vec = vec![-1, 0, 1];
+        let mut input = Cow::from(&vec);
+        abs_all(&mut input);
+        assert!(matches!(input, Cow::Owned(_)));
     }
 
     #[test]
-    fn reference_no_mutation() -> Result<(), &'static str> {
-        // No clone occurs because `input` doesn't need to be mutated.
-        let slice = [0, 1, 2];
-        let mut input = Cow::from(&slice[..]);
-        match abs_all(&mut input) {
-            // TODO
-        }
+    fn reference_no_mutation() {
+        let vec = vec![0, 1, 2];
+        let mut input = Cow::from(&vec);
+        abs_all(&mut input);
+        assert!(matches!(input, Cow::Borrowed(_)));
     }
 
     #[test]
-    fn owned_no_mutation() -> Result<(), &'static str> {
-        // We can also pass `slice` without `&` so Cow owns it directly. In this
-        // case no mutation occurs and thus also no clone, but the result is
-        // still owned because it was never borrowed or mutated.
-        let slice = vec![0, 1, 2];
-        let mut input = Cow::from(slice);
-        match abs_all(&mut input) {
-            // TODO
-        }
+    fn owned_no_mutation() {
+        let vec = vec![0, 1, 2];
+        let mut input = Cow::from(vec);
+        abs_all(&mut input);
+        assert!(matches!(input, Cow::Owned(_)));
     }
 
     #[test]
-    fn owned_mutation() -> Result<(), &'static str> {
-        // Of course this is also the case if a mutation does occur. In this
-        // case the call to `to_mut()` returns a reference to the same data as
-        // before.
-        let slice = vec![-1, 0, 1];
-        let mut input = Cow::from(slice);
-        match abs_all(&mut input) {
-            // TODO
-        }
+    fn owned_mutation() {
+        let vec = vec![-1, 0, 1];
+        let mut input = Cow::from(vec);
+        abs_all(&mut input);
+        assert!(matches!(input, Cow::Owned(_)));
     }
 }
