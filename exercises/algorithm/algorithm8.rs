@@ -2,7 +2,6 @@
 	queue
 	This question requires you to use queues to implement the functionality of the stac
 */
-
 #[derive(Debug)]
 pub struct Queue<T> {
     elements: Vec<T>,
@@ -43,24 +42,16 @@ impl<T> Queue<T> {
     }
 }
 
-impl<T> Default for Queue<T> {
-    fn default() -> Queue<T> {
-        Queue {
-            elements: Vec::new(),
-        }
-    }
-}
-
-pub struct myStack<T> {
+pub struct MyStack<T> {
     q1: Queue<T>,
     q2: Queue<T>,
 }
 
-impl<T> myStack<T> {
+impl<T> MyStack<T> {
     pub fn new() -> Self {
         Self {
-            q1: Queue::<T>::new(),
-            q2: Queue::<T>::new(),
+            q1: Queue::new(),
+            q2: Queue::new(),
         }
     }
 
@@ -86,15 +77,14 @@ impl<T> myStack<T> {
     }
 }
 
-
 #[cfg(test)]
 mod tests {
-	use super::*;
-	
-	#[test]
-	fn test_queue(){
-		let mut s = myStack::<i32>::new();
-		assert_eq!(s.pop(), Err("Stack is empty"));
+    use super::*;
+    
+    #[test]
+    fn test_queue() {
+        let mut s = MyStack::<i32>::new();
+        assert_eq!(s.pop(), Err("Queue is empty"));
         s.push(1);
         s.push(2);
         s.push(3);
@@ -106,7 +96,7 @@ mod tests {
         assert_eq!(s.pop(), Ok(5));
         assert_eq!(s.pop(), Ok(4));
         assert_eq!(s.pop(), Ok(1));
-        assert_eq!(s.pop(), Err("Stack is empty"));
+        assert_eq!(s.pop(), Err("Queue is empty"));
         assert_eq!(s.is_empty(), true);
-	}
+    }
 }
