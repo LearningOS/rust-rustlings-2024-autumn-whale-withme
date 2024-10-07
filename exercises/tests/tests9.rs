@@ -27,7 +27,7 @@
 //
 // You should NOT modify any existing code except for adding two lines of attributes.
 
-// I AM NOT DONE
+
 
 extern "Rust" {
     fn my_demo_function(a: u32) -> u32;
@@ -36,7 +36,7 @@ extern "Rust" {
 
 mod Foo {
     // No `extern` equals `extern "Rust"`.
-    #[no_mangle]
+    #[no_mangle]    /* 编译后命名不混淆 */
     fn my_demo_function(a: u32) -> u32 {
         a
     }
